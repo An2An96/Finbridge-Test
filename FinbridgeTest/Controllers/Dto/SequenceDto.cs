@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FinbridgeTest.Controllers.Dto
+namespace Finbridge.Test.Controllers.Dto
 {
     public class SequenceDto
     {

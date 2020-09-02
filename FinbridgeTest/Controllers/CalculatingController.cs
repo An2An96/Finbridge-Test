@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Finbridge.Test.Controllers.Dto;
 using Finbridge.Test.Services;
-using FinbridgeTest.Controllers.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Finbridge.Test.Controllers

@@ -48,6 +48,11 @@ namespace Finbridge.Test
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(c => c
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod());
+
             app.UseRouting();
 
             app.UseAuthorization();
