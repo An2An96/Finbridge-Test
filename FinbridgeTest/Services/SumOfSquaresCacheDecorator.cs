@@ -23,7 +23,7 @@ namespace Finbridge.Test.Services
             var cacheKey = GetKey(sequence);
             if (_memoryCache.TryGetValue(cacheKey, out int cacheValue))
             {
-                return await Task.Run(() => cacheValue);
+                return cacheValue;
             }
             var value = await _next.CalculatingAsync(sequence);
             _memoryCache.Set(cacheKey, value, new MemoryCacheEntryOptions

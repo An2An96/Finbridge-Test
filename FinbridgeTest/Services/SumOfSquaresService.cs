@@ -24,18 +24,18 @@ namespace Finbridge.Test.Services
 
             if (count == 0)
             {
-                throw new ValidationException($"Sequence should not be empty");
+                throw new ValidationException($"Последовательность не должна быть пустой");
             }
 
             if (count > _configuration.MaxCount)
             {
-                throw new ValidationException($"Invalid count values in sequence, max count: {_configuration.MaxCount}");
+                throw new ValidationException($"Максимальное количество элементов последовательности: {_configuration.MaxCount}");
             }
 
             if (!sequence.All(x => x >= _configuration.MinValue && x <= _configuration.MaxValue))
             {
                 throw new ValidationException(
-                    $"Invalid value in sequence, max value: {_configuration.MaxValue}, min value: {_configuration.MinValue}");
+                    $"Неверное значение элемента, максимальное значение: {_configuration.MaxValue}, минимальное: {_configuration.MinValue}");
             }
         }
 
