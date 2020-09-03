@@ -1,5 +1,7 @@
 <template>
     <div>
+        <b-alert v-if="error" show variant="danger">{{error}}</b-alert>
+
         <b-form @submit="onSubmit">
             <b-form-group
                     id="input-group-1"
@@ -14,7 +16,8 @@
                 ></b-form-input>
             </b-form-group>
 
-            <b-button type="submit" variant="primary">Посчитать</b-button>
+            <b-button v-if="!loading" type="submit" variant="primary">Посчитать</b-button>
+            <b-button v-else disabled type="submit" variant="primary">Вычисление...</b-button>
         </b-form>
         <b-card class="mt-3" header="Результаты">
             <pre v-for="item in results" class="m-0">{{ item }}</pre>
@@ -29,6 +32,8 @@
                 form: {
                     sequence: ''
                 },
+                loading: false,
+                error: null,
                 results: []
             }
         },
@@ -36,10 +41,15 @@
             async onSubmit(evt) {
                 evt.preventDefault();
 
+                if (!/(-?\d\s?,\s?)+-?\d/.test(this.form.sequence)) {
+                    alert('Неверная последовательность: укажите набор чисел через запятую');
+                    return;
+                }
+
                 const numbers = this.form.sequence.split(',').map(x => Number(x));
 
-                this.form.sequence = null;
-
+                this.error = null;
+                this.loading = true;
                 const response = await fetch('http://localhost:59816/calculating/sumOfSquares', {
                     method: 'POST',
                     headers: {
@@ -50,10 +60,15 @@
                     })
                 });
 
+                let body = await response.json();
                 if (response.ok) {
-                    let body = await response.json();
                     this.results.unshift(body.value);
+                    this.form.sequence = '';
+                } else {
+                    this.error = body.message;
                 }
+
+                this.loading = false;
             }
         }
     }
